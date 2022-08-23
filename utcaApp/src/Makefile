@@ -5,27 +5,26 @@ include $(TOP)/configure/CONFIG
 #  ADD MACRO DEFINITIONS BELOW HERE
 
 # xxxRecord.h will be created from xxxRecord.dbd
-DBDINC += xxxRecord
+DBDINC +=
 
 # Install xxxSupport.dbd into <top>/dbd
-DBD += xxxSupport.dbd
+DBD +=
 
 # Build an IOC support library
 LIBRARY_IOC += utcaSupport
 
 # Compile and add the code to the support library
-utcaSupport_SRCS += xxxRecord.c
-utcaSupport_SRCS += devXxxSoft.c
-
-# Link locally-provided code into the support library,
-# rather than directly into the IOC application.
-# This is required for Windows DLL builds.
-utcaSupport_SRCS += dbSubExample.c
-utcaSupport_SRCS += utcaHello.c
-utcaSupport_SRCS += initTrace.c
+utcaSupport_SRCS += rtmlamp.cpp
 
 utcaSupport_LIBS += $(EPICS_BASE_IOC_LIBS)
+utcaSupport_LIBS += asyn
 
+DECODE_REG = $(EPICS_BASE)/../decode-reg
+DECODE_REG_LIBS = $(DECODE_REG)/lib/x86_64-linux-gnu
+
+utcaSupport_LIBS += utilities modules
+OP_SYS_INCLUDES += -I$(DECODE_REG)/include/decode-reg
+USR_CXXFLAGS += -std=c++17
 
 # Build the IOC application
 PROD_IOC = utca
@@ -35,10 +34,6 @@ DBD += utca.dbd
 
 # utca.dbd will include these files:
 utca_DBD += base.dbd
-utca_DBD += xxxSupport.dbd
-utca_DBD += dbSubExample.dbd
-utca_DBD += utcaHello.dbd
-utca_DBD += initTrace.dbd
 
 # utca_registerRecordDeviceDriver.cpp derives from utca.dbd
 utca_SRCS += utca_registerRecordDeviceDriver.cpp
