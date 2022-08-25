@@ -11,10 +11,10 @@ DBDINC +=
 DBD +=
 
 # Build an IOC support library
-LIBRARY_IOC += utcaSupport
+LIBRARY_IOC +=
 
 # Compile and add the code to the support library
-utcaSupport_SRCS += rtmlamp.cpp
+utca_SRCS += rtmlamp.cpp
 
 utcaSupport_LIBS += $(EPICS_BASE_IOC_LIBS)
 utcaSupport_LIBS += asyn
@@ -22,7 +22,8 @@ utcaSupport_LIBS += asyn
 DECODE_REG = $(EPICS_BASE)/../decode-reg
 DECODE_REG_LIBS = $(DECODE_REG)/lib/x86_64-linux-gnu
 
-utcaSupport_LIBS += utilities modules
+utca_LIBS += asyn
+utca_LIBS += utilities modules
 utilities_DIR = $(DECODE_REG_LIBS)
 modules_DIR = $(DECODE_REG_LIBS)
 
@@ -44,9 +45,6 @@ utca_SRCS += utca_registerRecordDeviceDriver.cpp
 # Build the main IOC entry point where needed
 utca_SRCS_DEFAULT += utcaMain.cpp
 utca_SRCS_vxWorks += -nil-
-
-# Link in the code from our support library
-utca_LIBS += utcaSupport
 
 # To build SNL programs, SNCSEQ must be defined
 # in the <top>/configure/RELEASE file
