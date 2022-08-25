@@ -23,6 +23,9 @@ DECODE_REG = $(EPICS_BASE)/../decode-reg
 DECODE_REG_LIBS = $(DECODE_REG)/lib/x86_64-linux-gnu
 
 utcaSupport_LIBS += utilities modules
+utilities_DIR = $(DECODE_REG_LIBS)
+modules_DIR = $(DECODE_REG_LIBS)
+
 OP_SYS_INCLUDES += -I$(DECODE_REG)/include/decode-reg
 USR_CXXFLAGS += -std=c++17
 
