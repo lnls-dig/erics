@@ -15,6 +15,7 @@ LIBRARY_IOC +=
 
 # Compile and add the code to the support library
 utca_SRCS += rtmlamp.cpp
+utca_DBD += drivers.dbd
 
 utcaSupport_LIBS += $(EPICS_BASE_IOC_LIBS)
 utcaSupport_LIBS += asyn

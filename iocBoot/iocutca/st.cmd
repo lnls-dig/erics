@@ -14,5 +14,7 @@ utca_registerRecordDeviceDriver pdbbase
 ## Run this to trace the stages of iocInit
 #traceIocInit
 
+RtmLamp(0)
+
 cd "${TOP}/iocBoot/${IOC}"
 iocInit
