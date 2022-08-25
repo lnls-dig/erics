@@ -1,3 +1,4 @@
 # list all drive registrars here so they become available from iocsh
 
+registrar("registerPcie")
 registrar("registerRtmLamp")
