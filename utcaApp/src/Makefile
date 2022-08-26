@@ -13,23 +13,24 @@ DBD +=
 # Build an IOC support library
 LIBRARY_IOC +=
 
-# Compile and add the code to the support library
+
+utca_DBD += base.dbd
+
+utca_LIBS += asyn
+utca_DBD += asyn.dbd
+
 utca_SRCS += pcie-single.cpp rtmlamp.cpp
 utca_DBD += drivers.dbd
-
-utcaSupport_LIBS += $(EPICS_BASE_IOC_LIBS)
-utcaSupport_LIBS += asyn
 
 DECODE_REG = $(EPICS_BASE)/../decode-reg
 DECODE_REG_LIBS = $(DECODE_REG)/lib/x86_64-linux-gnu
 
-utca_LIBS += asyn
-utca_LIBS += utilities modules
+utca_LIBS += modules utilities
 utilities_DIR = $(DECODE_REG_LIBS)
 modules_DIR = $(DECODE_REG_LIBS)
 
 OP_SYS_INCLUDES += -I$(DECODE_REG)/include/decode-reg
-USR_CXXFLAGS += -std=c++17
+USR_CXXFLAGS += -std=c++17 -Wall -Wextra
 
 # Build the IOC application
 PROD_IOC = utca
@@ -46,26 +47,6 @@ utca_SRCS += utca_registerRecordDeviceDriver.cpp
 # Build the main IOC entry point where needed
 utca_SRCS_DEFAULT += utcaMain.cpp
 utca_SRCS_vxWorks += -nil-
-
-# To build SNL programs, SNCSEQ must be defined
-# in the <top>/configure/RELEASE file
-ifneq ($(SNCSEQ),)
-    # Build sncExample into utcaSupport
-    sncExample_SNCFLAGS += +r
-    utca_DBD += sncExample.dbd
-    # A .stt sequence program is *not* pre-processed:
-    utcaSupport_SRCS += sncExample.stt
-    utcaSupport_LIBS += seq pv
-    utca_LIBS += seq pv
-
-    # Build sncProgram as a standalone program
-    PROD_HOST += sncProgram
-    sncProgram_SNCFLAGS += +m
-    # A .st sequence program *is* pre-processed:
-    sncProgram_SRCS += sncProgram.st
-    sncProgram_LIBS += seq pv
-    sncProgram_LIBS += $(EPICS_BASE_HOST_LIBS)
-endif
 
 # Finally link IOC to the EPICS Base libraries
 utca_LIBS += $(EPICS_BASE_IOC_LIBS)
