@@ -17,5 +17,7 @@ utca_registerRecordDeviceDriver pdbbase
 pcie("2")
 RtmLamp(0)
 
+dbLoadRecords("db/rtmlamp.template", "P=p:, R=r:, S=s:, RTM_CHAN=chan1:, PORT=RTMLAMP-0, ADDR=0")
+
 cd "${TOP}/iocBoot/${IOC}"
 iocInit
