@@ -14,7 +14,7 @@
 const static unsigned number_of_channels = 12;
 
 class RtmLamp: public asynPortDriver {
-    LnlsRtmLampControllerV2 ctl;
+    lamp::ControllerV2 ctl;
 
     int p_psstatus, p_overcurr_l, p_overtemp_l, p_overcurr_r, p_overtemp_r,
         p_pwrstate, p_opmode, p_loopkp, p_loopti,
