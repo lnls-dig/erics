@@ -4,6 +4,7 @@
 
 #include <iocsh.h>
 #include <epicsExport.h>
+#include <cantProceed.h>
 
 #include <asynPortDriver.h>
 
@@ -142,7 +143,8 @@ extern "C" {
     {
         try {
             new RtmLamp(args[0].ival);
-        } catch (std::runtime_error &e) {
+        } catch (std::exception &e) {
+            cantProceed("error creating rtmlamp: %s\n", e.what());
         }
     }
 
