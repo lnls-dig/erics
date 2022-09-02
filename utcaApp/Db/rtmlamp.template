@@ -414,7 +414,7 @@ record(mbbo,"$(S)$(RTM_CHAN)TrigEn-Sel"){
     field(DESC,"set trigger enable status")
     field(SCAN,"Passive")
     field(OUT,"@asyn($(PORT),$(ADDR))TRIG_EN")
-    #field(PINI,"YES")
+    field(PINI,"YES")
     field(NOBT,"0")
     field(ZRVL,"0")
     field(ONVL,"1")
