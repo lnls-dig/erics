@@ -11,7 +11,7 @@ record(mbbi,"$(S)$(RTM_CHAN)PSAmpOverCurrFlagL-Sts"){
     field(DTYP,"asynInt32")
     field(DESC,"get amplifier left overcurrent flag")
     field(SCAN,"I/O Intr")
-    field(INP,"@asyn($(PORT),$(ADDR))OVERCURR_L")
+    field(INP,"@asyn($(PORT),$(ADDR))AMP_IFLAG_L")
     field(PINI,"YES")
     field(NOBT,"1")
     field(ZRVL,"0")
@@ -24,7 +24,7 @@ record(mbbi,"$(S)$(RTM_CHAN)PSAmpOverTempFlagL-Sts"){
     field(DTYP,"asynInt32")
     field(DESC,"get amplifier left overtemperature flag")
     field(SCAN,"I/O Intr")
-    field(INP,"@asyn($(PORT),$(ADDR))OVERTEMP_L")
+    field(INP,"@asyn($(PORT),$(ADDR))AMP_TFLAG_L")
     field(PINI,"YES")
     field(NOBT,"1")
     field(ZRVL,"0")
@@ -37,7 +37,7 @@ record(mbbi,"$(S)$(RTM_CHAN)PSAmpOverCurrFlagR-Sts"){
     field(DTYP,"asynInt32")
     field(DESC,"get amplifier right overcurrent flag")
     field(SCAN,"I/O Intr")
-    field(INP,"@asyn($(PORT),$(ADDR))OVERCURR_R")
+    field(INP,"@asyn($(PORT),$(ADDR))AMP_IFLAG_R")
     field(PINI,"YES")
     field(NOBT,"1")
     field(ZRVL,"0")
@@ -50,7 +50,7 @@ record(mbbi,"$(S)$(RTM_CHAN)PSAmpOverTempFlagR-Sts"){
     field(DTYP,"asynInt32")
     field(DESC,"get amplifier right overtemperature flag")
     field(SCAN,"I/O Intr")
-    field(INP,"@asyn($(PORT),$(ADDR))OVERTEMP_R")
+    field(INP,"@asyn($(PORT),$(ADDR))AMP_TFLAG_R")
     field(PINI,"YES")
     field(NOBT,"1")
     field(ZRVL,"0")
@@ -81,7 +81,7 @@ record(mbbo,"$(S)$(RTM_CHAN)PwrState-Sel"){
     field(DTYP,"asynInt32")
     field(DESC,"set amplifier enable status")
     field(SCAN,"Passive")
-    field(OUT,"@asyn($(PORT),$(ADDR))PWR_STATE")
+    field(OUT,"@asyn($(PORT),$(ADDR))AMP_EN")
     field(PINI,"YES")
     field(NOBT,"0")
     field(ZRVL,"0")
@@ -93,7 +93,7 @@ record(mbbi,"$(S)$(RTM_CHAN)PwrState-Sts"){
     field(DTYP,"asynInt32")
     field(DESC,"get amplifier enable status")
     field(SCAN,"I/O Intr")
-    field(INP,"@asyn($(PORT),$(ADDR))PWR_STATE")
+    field(INP,"@asyn($(PORT),$(ADDR))AMP_EN")
     field(NOBT,"0")
     field(ZRVL,"0")
     field(ONVL,"1")
@@ -105,7 +105,7 @@ record(mbbo,"$(S)$(RTM_CHAN)OpMode-Sel"){
     field(DTYP,"asynInt32")
     field(DESC,"set power supply mode")
     field(SCAN,"Passive")
-    field(OUT,"@asyn($(PORT),$(ADDR))OP_MODE")
+    field(OUT,"@asyn($(PORT),$(ADDR))MODE")
     field(PINI,"YES")
     field(NOBT,"0")
     field(ZRVL,"0")
@@ -123,7 +123,7 @@ record(mbbi,"$(S)$(RTM_CHAN)OpMode-Sts"){
     field(DTYP,"asynInt32")
     field(DESC,"get power supply mode")
     field(SCAN,"I/O Intr")
-    field(INP,"@asyn($(PORT),$(ADDR))OP_MODE")
+    field(INP,"@asyn($(PORT),$(ADDR))MODE")
     field(NOBT,"0")
     field(ZRVL,"0")
     field(ONVL,"1")
@@ -141,7 +141,7 @@ record(longout,"$(S)$(RTM_CHAN)CtrlLoopKp-SP"){
     field(DTYP,"asynInt32")
     field(DESC,"set PI Kp parameter")
     field(SCAN,"Passive")
-    field(OUT,"@asyn($(PORT),$(ADDR))LOOP_KP")
+    field(OUT,"@asyn($(PORT),$(ADDR))PI_KP")
     field(PINI,"YES")
     field(DRVH,"67108863")
     field(DRVL,"0")
@@ -150,14 +150,14 @@ record(longin,"$(S)$(RTM_CHAN)CtrlLoopKp-RB"){
     field(DTYP,"asynInt32")
     field(DESC,"get PI Kp parameter")
     field(SCAN,"I/O Intr")
-    field(INP,"@asyn($(PORT),$(ADDR))LOOP_KP")
+    field(INP,"@asyn($(PORT),$(ADDR))PI_KP")
 }
 
 record(longout,"$(S)$(RTM_CHAN)CtrlLoopTi-SP"){
     field(DTYP,"asynInt32")
     field(DESC,"set PI Ti parameter")
     field(SCAN,"Passive")
-    field(OUT,"@asyn($(PORT),$(ADDR))LOOP_TI")
+    field(OUT,"@asyn($(PORT),$(ADDR))PI_TI")
     field(PINI,"YES")
     field(DRVH,"67108863")
     field(DRVL,"0")
@@ -166,14 +166,14 @@ record(longin,"$(S)$(RTM_CHAN)CtrlLoopTi-RB"){
     field(DTYP,"asynInt32")
     field(DESC,"get PI Ti parameter")
     field(SCAN,"I/O Intr")
-    field(INP,"@asyn($(PORT),$(ADDR))LOOP_TI")
+    field(INP,"@asyn($(PORT),$(ADDR))PI_TI")
 }
 
 record(longout,"$(S)$(RTM_CHAN)TestWavePeriod-SP"){
     field(DTYP,"asynInt32")
     field(DESC,"set sqr wave test period in 10ns steps")
     field(SCAN,"Passive")
-    field(OUT,"@asyn($(PORT),$(ADDR))TEST_WAVE_PERIOD")
+    field(OUT,"@asyn($(PORT),$(ADDR))CNT")
     field(PINI,"YES")
     field(DRVH,"4194303")
     field(DRVL,"0")
@@ -182,14 +182,14 @@ record(longin,"$(S)$(RTM_CHAN)TestWavePeriod-RB"){
     field(DTYP,"asynInt32")
     field(DESC,"get sqr wave test period in 10ns steps")
     field(SCAN,"I/O Intr")
-    field(INP,"@asyn($(PORT),$(ADDR))TEST_WAVE_PERIOD")
+    field(INP,"@asyn($(PORT),$(ADDR))CNT")
 }
 
 record(longout,"$(S)$(RTM_CHAN)TestLimA-SP"){
     field(DTYP,"asynInt32")
     field(DESC,"set square wave test limit A")
     field(SCAN,"Passive")
-    field(OUT,"@asyn($(PORT),$(ADDR))TEST_LIM_A")
+    field(OUT,"@asyn($(PORT),$(ADDR))LIMIT_A")
     field(PINI,"YES")
     field(DRVH,"32767")
     field(DRVL,"-32768")
@@ -198,14 +198,14 @@ record(longin,"$(S)$(RTM_CHAN)TestLimA-RB"){
     field(DTYP,"asynInt32")
     field(DESC,"get square wave test limit A")
     field(SCAN,"I/O Intr")
-    field(INP,"@asyn($(PORT),$(ADDR))TEST_LIM_A")
+    field(INP,"@asyn($(PORT),$(ADDR))LIMIT_A")
 }
 
 record(longout,"$(S)$(RTM_CHAN)TestLimB-SP"){
     field(DTYP,"asynInt32")
     field(DESC,"set square wave test limit B")
     field(SCAN,"Passive")
-    field(OUT,"@asyn($(PORT),$(ADDR))TEST_LIM_B")
+    field(OUT,"@asyn($(PORT),$(ADDR))LIMIT_B")
     field(PINI,"YES")
     field(DRVH,"32767")
     field(DRVL,"-32768")
@@ -215,7 +215,7 @@ record(longin,"$(S)$(RTM_CHAN)TestLimB-RB"){
     field(DTYP,"asynInt32")
     field(DESC,"get square wave test limit B")
     field(SCAN,"I/O Intr")
-    field(INP,"@asyn($(PORT),$(ADDR))TEST_LIM_B")
+    field(INP,"@asyn($(PORT),$(ADDR))LIMIT_B")
     field(FLNK,"$(S)$(RTM_CHAN)CurrentConv2-SP CPP NMS")
 }
 
@@ -331,7 +331,7 @@ record(longin,"$(S)$(RTM_CHAN)CurrentRaw-Mon"){
     field(DTYP,"asynInt32")
     field(DESC,"get current monitor (raw)")
     field(SCAN,"I/O Intr")
-    field(INP,"@asyn($(PORT),$(ADDR))EFF_ADC")
+    field(INP,"@asyn($(PORT),$(ADDR))ADC_INST")
     field(FLNK,"$(S)$(RTM_CHAN)CurrentRawConv-SP CPP NMS")
 }
 
@@ -356,7 +356,7 @@ record(longin,"$(S)$(RTM_CHAN)VoltageRaw-Mon"){
     field(DTYP,"asynInt32")
     field(DESC,"get voltage monitor (raw)")
     field(SCAN,"I/O Intr")
-    field(INP,"@asyn($(PORT),$(ADDR))EFF_DAC")
+    field(INP,"@asyn($(PORT),$(ADDR))DAC_EFF")
     field(FLNK,"$(S)$(RTM_CHAN)VoltageRawConv-SP CPP NMS")
 }
 
@@ -381,7 +381,7 @@ record(longin,"$(S)$(RTM_CHAN)CurrentRawRef-Mon"){
     field(DTYP,"asynInt32")
     field(DESC,"get current reference monitor (raw)")
     field(SCAN,"I/O Intr")
-    field(INP,"@asyn($(PORT),$(ADDR))EFF_SP")
+    field(INP,"@asyn($(PORT),$(ADDR))SP_EFF")
     field(FLNK,"$(S)$(RTM_CHAN)CurrentRawRefConv-SP CPP NMS")
 }
 
