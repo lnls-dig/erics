@@ -21,6 +21,8 @@ extern "C" {
         } catch (std::runtime_error &e) {
             /* FIXME: do something with this exception,
              * so far we are only avoiding propagating it through C */
+            fprintf(stderr, "init pcie error: %s\n", e.what());
+            return;
         }
     }
 
