@@ -15,16 +15,46 @@
 const static unsigned number_of_channels = 12;
 
 class RtmLamp: public asynPortDriver {
+    lamp::CoreV2 dec;
     lamp::ControllerV2 ctl;
 
-    int p_psstatus, p_overcurr_l, p_overtemp_l, p_overcurr_r, p_overtemp_r,
-        p_pwrstate, p_opmode, p_loopkp, p_loopti,
-        p_testwaveperiod, p_testlim_a, p_testlim_b,
-        p_pi_sp, p_dac, p_eff_adc, p_eff_dac, p_eff_sp,
-        p_trigen;
+    int p_psstatus;
 
+    int p_overcurr_l, p_overtemp_l, p_overcurr_r, p_overtemp_r,
+        p_pwrstate, p_opmode, p_trigen, p_loopkp, p_loopti,
+        p_testwaveperiod, p_testlim_a, p_testlim_b,
+        p_pi_sp, p_dac, p_eff_adc, p_eff_dac, p_eff_sp;
     /* XXX: update these when new p_* variables are added */
-    const int &first_parameter = p_psstatus, &last_parameter = p_trigen;
+    const int &first_parameter = p_overcurr_l, &last_parameter = p_eff_sp;
+
+    int p_scan_task;
+
+    /* XXX: should lead to compilation error if size is mismatched */
+    const std::tuple<const char *, int &> name_and_index[2] = {
+        {"PS_STATUS", p_psstatus},
+
+        {"SCAN_TASK", p_scan_task},
+    };
+
+    const std::tuple<const char *, int &> name_and_index_channel[17] = {
+        {"AMP_IFLAG_L", p_overcurr_l},
+        {"AMP_TFLAG_L", p_overtemp_l},
+        {"AMP_IFLAG_R", p_overcurr_r},
+        {"AMP_TFLAG_R", p_overtemp_r},
+        {"AMP_EN", p_pwrstate},
+        {"MODE", p_opmode},
+        {"TRIG_EN", p_trigen},
+        {"PI_KP", p_loopkp},
+        {"PI_TI", p_loopti},
+        {"CNT", p_testwaveperiod},
+        {"LIMIT_A", p_testlim_a},
+        {"LIMIT_B", p_testlim_b},
+        {"PI_SP", p_pi_sp},
+        {"DAC", p_dac},
+        {"ADC_INST", p_eff_adc},
+        {"DAC_EFF", p_eff_dac},
+        {"SP_EFF", p_eff_sp},
+    };
 
   public:
     RtmLamp(int port_number):
@@ -38,33 +68,11 @@ class RtmLamp: public asynPortDriver {
     {
         if (auto v = read_sdb(&bars, ctl.device_match, port_number)) {
             ctl.set_devinfo(*v);
+            dec.set_devinfo(*v);
         } else {
             throw std::runtime_error("couldn't find lamp module");
         }
 
-        std::tuple<const char *, int &> name_and_index[] = {
-            {"PS_STATUS", p_psstatus},
-        };
-
-        std::tuple<const char *, int &> name_and_index_channel[] = {
-            {"OVERCURR_L", p_overcurr_l},
-            {"OVERTEMP_L", p_overtemp_l},
-            {"OVERCURR_R", p_overcurr_r},
-            {"OVERTEMP_R", p_overtemp_r},
-            {"PWR_STATE", p_pwrstate},
-            {"OP_MODE", p_opmode},
-            {"LOOP_KP", p_loopkp},
-            {"LOOP_TI", p_loopti},
-            {"TEST_WAVE_PERIOD", p_testwaveperiod},
-            {"TEST_LIM_A", p_testlim_a},
-            {"TEST_LIM_B", p_testlim_b},
-            {"PI_SP", p_pi_sp},
-            {"DAC", p_dac},
-            {"EFF_ADC", p_eff_adc},
-            {"EFF_DAC", p_eff_dac},
-            {"EFF_SP", p_eff_sp},
-            {"TRIG_EN", p_trigen},
-        };
 
         /* here, we don't call setIntegerParam to initialize these parameters:
          * - readback ones are expected to be initialized soon via SCAN
@@ -80,6 +88,45 @@ class RtmLamp: public asynPortDriver {
         for (auto &v: name_and_index_channel) {
             createParam(std::get<0>(v), asynParamInt32, &std::get<1>(v));
         }
+
+        /* XXX: initialize this one specifically to avoid an exception */
+        for (unsigned addr = 0; addr < number_of_channels; addr++) {
+            setIntegerParam(addr, p_opmode, 0);
+        }
+    }
+
+    asynStatus read_parameters()
+    {
+        dec.read(&bars);
+        dec.decode();
+
+        const char *param_name;
+        for (unsigned addr = 0; addr < number_of_channels; addr++) {
+            for (int p = first_parameter; p <= last_parameter; p++)
+            {
+                /* FIXME: replace with indexing into name_and_index_channel */
+                getParamName(p, &param_name);
+
+                setIntegerParam(addr, p, dec.get_channel_data(param_name, addr));
+            }
+
+            callParamCallbacks(addr);
+        }
+
+        getParamName(p_psstatus, &param_name);
+        setIntegerParam(p_psstatus, dec.get_general_data(param_name));
+        callParamCallbacks(0);
+
+        return asynSuccess;
+    }
+
+    asynStatus readInt32(asynUser *pasynUser, epicsInt32 *value)
+    {
+        const int function = pasynUser->reason;
+
+        *value = 0;
+        if (function == p_scan_task) return read_parameters();
+        else return asynPortDriver::readInt32(pasynUser, value);
     }
 
     asynStatus writeInt32(asynUser *pasynUser, epicsInt32 value)
