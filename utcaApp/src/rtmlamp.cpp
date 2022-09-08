@@ -64,11 +64,12 @@ class RtmLamp: public asynPortDriver {
           -1, -1, /* enable all interfaces and interrupts */
           0, 1, 0, 0 /* no flags, auto connect, default priority and stack size */
       ),
-      ctl(&bars)
+      dec(bars),
+      ctl(bars)
     {
         if (auto v = read_sdb(&bars, ctl.device_match, port_number)) {
-            ctl.set_devinfo(*v);
             dec.set_devinfo(*v);
+            ctl.set_devinfo(*v);
         } else {
             throw std::runtime_error("couldn't find lamp module");
         }
@@ -97,8 +98,7 @@ class RtmLamp: public asynPortDriver {
 
     asynStatus read_parameters()
     {
-        dec.read(&bars);
-        dec.decode();
+        dec.read();
 
         const char *param_name;
         for (unsigned addr = 0; addr < number_of_channels; addr++) {
