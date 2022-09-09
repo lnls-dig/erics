@@ -22,14 +22,14 @@ utca_DBD += asyn.dbd
 utca_SRCS += pcie-single.cpp rtmlamp.cpp
 utca_DBD += drivers.dbd
 
-DECODE_REG = $(EPICS_BASE)/../decode-reg
-DECODE_REG_LIBS = $(DECODE_REG)/lib/x86_64-linux-gnu
+UHAL = $(EPICS_BASE)/../uhal
+UHAL_LIBS = $(UHAL)/lib/x86_64-linux-gnu
 
-utca_LIBS += modules utilities
-utilities_DIR = $(DECODE_REG_LIBS)
-modules_DIR = $(DECODE_REG_LIBS)
+utca_LIBS += uhal-modules uhal-utilities
+uhal-utilities_DIR = $(UHAL_LIBS)
+uhal-modules_DIR = $(UHAL_LIBS)
 
-OP_SYS_INCLUDES += -I$(DECODE_REG)/include/decode-reg
+OP_SYS_INCLUDES += -I$(UHAL)/include/uhal
 USR_CXXFLAGS += -std=c++17 -Wall -Wextra
 
 # Build the IOC application
