@@ -149,6 +149,8 @@ class RtmLamp: public asynPortDriver {
             /* we expect success, unless the parameter hasn't been initialized yet */
             if (getIntegerParam(addr, fn, &tmp) == asynSuccess)
                 ctl_value = tmp;
+            else
+                ctl_value = 0;
         };
 
         write_param(p_pwrstate, ctl.amp_enable);
