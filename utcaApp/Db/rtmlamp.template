@@ -14,12 +14,11 @@ record(bi,"$(P)$(R)PSStatus-Mon"){
     field(INP,"@asyn($(PORT),0)PS_STATUS")
 }
 
-record(mbbi,"$(S)$(RTM_CHAN)PSAmpOverCurrFlagL-Sts"){
+record(mbbi,"$(S)$(RTM_CHAN)PSAmpOverCurrFlagL-Mon"){
     field(DTYP,"asynInt32")
     field(DESC,"get amplifier left overcurrent flag")
     field(SCAN,"I/O Intr")
     field(INP,"@asyn($(PORT),$(ADDR))AMP_IFLAG_L")
-    field(PINI,"YES")
     field(NOBT,"1")
     field(ZRVL,"0")
     field(ONVL,"1")
@@ -27,12 +26,11 @@ record(mbbi,"$(S)$(RTM_CHAN)PSAmpOverCurrFlagL-Sts"){
     field(ONST,"over")
 }
 
-record(mbbi,"$(S)$(RTM_CHAN)PSAmpOverTempFlagL-Sts"){
+record(mbbi,"$(S)$(RTM_CHAN)PSAmpOverTempFlagL-Mon"){
     field(DTYP,"asynInt32")
     field(DESC,"get amplifier left overtemperature flag")
     field(SCAN,"I/O Intr")
     field(INP,"@asyn($(PORT),$(ADDR))AMP_TFLAG_L")
-    field(PINI,"YES")
     field(NOBT,"1")
     field(ZRVL,"0")
     field(ONVL,"1")
@@ -40,12 +38,11 @@ record(mbbi,"$(S)$(RTM_CHAN)PSAmpOverTempFlagL-Sts"){
     field(ONST,"over")
 }
 
-record(mbbi,"$(S)$(RTM_CHAN)PSAmpOverCurrFlagR-Sts"){
+record(mbbi,"$(S)$(RTM_CHAN)PSAmpOverCurrFlagR-Mon"){
     field(DTYP,"asynInt32")
     field(DESC,"get amplifier right overcurrent flag")
     field(SCAN,"I/O Intr")
     field(INP,"@asyn($(PORT),$(ADDR))AMP_IFLAG_R")
-    field(PINI,"YES")
     field(NOBT,"1")
     field(ZRVL,"0")
     field(ONVL,"1")
@@ -53,12 +50,11 @@ record(mbbi,"$(S)$(RTM_CHAN)PSAmpOverCurrFlagR-Sts"){
     field(ONST,"over")
 }
 
-record(mbbi,"$(S)$(RTM_CHAN)PSAmpOverTempFlagR-Sts"){
+record(mbbi,"$(S)$(RTM_CHAN)PSAmpOverTempFlagR-Mon"){
     field(DTYP,"asynInt32")
     field(DESC,"get amplifier right overtemperature flag")
     field(SCAN,"I/O Intr")
     field(INP,"@asyn($(PORT),$(ADDR))AMP_TFLAG_R")
-    field(PINI,"YES")
     field(NOBT,"1")
     field(ZRVL,"0")
     field(ONVL,"1")
@@ -69,10 +65,10 @@ record(mbbi,"$(S)$(RTM_CHAN)PSAmpOverTempFlagR-Sts"){
 record(calcout, "$(S)$(RTM_CHAN)AlarmsAmp-Mon"){
     field(DESC, "Over-temperature and over-current flags")
     field(SCAN, "Passive")
-    field(INPA, "$(S)$(RTM_CHAN)PSAmpOverCurrFlagL CA")
-    field(INPB, "$(S)$(RTM_CHAN)PSAmpOverTempFlagL CA")
-    field(INPC, "$(S)$(RTM_CHAN)PSAmpOverCurrFlagR CA")
-    field(INPD, "$(S)$(RTM_CHAN)PSAmpOverTempFlagR CP")
+    field(INPA, "$(S)$(RTM_CHAN)PSAmpOverCurrFlagL-Mon CP")
+    field(INPB, "$(S)$(RTM_CHAN)PSAmpOverTempFlagL-Mon CP")
+    field(INPC, "$(S)$(RTM_CHAN)PSAmpOverCurrFlagR-Mon CP")
+    field(INPD, "$(S)$(RTM_CHAN)PSAmpOverTempFlagR-Mon CP")
     field(CALC, "(D<<3)|(C<<2)|(B<<1)|A")
     field(HIHI, "1")
     field(HHSV, "MAJOR")
