@@ -7,7 +7,7 @@ include $(TOP)/configure/CONFIG
 DB += scan_task.template
 DB += fofb_cc.template fofb_cc_channel.template
 DB += rtmlamp.template
-DB += trigger_iface.template trigger_mux.template
+DB += trigger_iface.template trigger_mux.template triggers.substitutions
 
 # If <anyname>.db template is not named <anyname>*.template add
 # <anyname>_TEMPLATE = <templatename>
