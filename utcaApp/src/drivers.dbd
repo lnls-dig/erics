@@ -2,3 +2,6 @@
 
 registrar("registerPcie")
 registrar("registerRtmLamp")
+registrar("registerFofbCc")
+registrar("registerTriggerIface")
+registrar("registerTriggerMux")
